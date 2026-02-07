@@ -88,15 +88,18 @@ def create_app(config_overrides=None):
         if winner not in ("p1", "p2"):
             return jsonify({"error": "winner must be 'p1' or 'p2'"}), 400
 
+        def _upper(s):
+            return (s or "").strip().upper() or None
+
         match = Match(
-            player1_name=player1_name,
-            player2_name=player2_name,
+            player1_name=player1_name.upper(),
+            player2_name=player2_name.upper(),
             winner=winner,
             score_p1=int(data.get("score_p1") or 0),
             score_p2=int(data.get("score_p2") or 0),
             stage=data.get("stage"),
-            character_p1=data.get("character_p1"),
-            character_p2=data.get("character_p2"),
+            character_p1=_upper(data.get("character_p1")),
+            character_p2=_upper(data.get("character_p2")),
             mode=data.get("mode"),
         )
         db.session.add(match)
@@ -252,15 +255,19 @@ def create_app(config_overrides=None):
                 return render_template("error.html", message="Faltan nombres.", back_url="/matches/new"), 400
             if winner not in ("p1", "p2"):
                 winner = "p1"
+
+            def _upper(s):
+                return (s or "").strip().upper() or None
+
             match = Match(
-                player1_name=player1_name,
-                player2_name=player2_name,
+                player1_name=player1_name.upper(),
+                player2_name=player2_name.upper(),
                 winner=winner,
                 score_p1=int(request.form.get("score_p1") or 0),
                 score_p2=int(request.form.get("score_p2") or 0),
                 stage=request.form.get("stage") or None,
-                character_p1=request.form.get("character_p1") or None,
-                character_p2=request.form.get("character_p2") or None,
+                character_p1=_upper(request.form.get("character_p1")),
+                character_p2=_upper(request.form.get("character_p2")),
                 mode=request.form.get("mode") or None,
             )
             db.session.add(match)
