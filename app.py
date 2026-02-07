@@ -19,7 +19,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # --- Config ---
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DATABASE_URI = os.environ.get("DATABASE_URL", f"sqlite:///{os.path.join(BASE_DIR, 'fight_stats.db')}")
+DATABASE_URI = os.environ.get("DATABASE_URL", f"sqlite:///{os.path.join(BASE_DIR, 'maxxa_velada.db')}")
 if DATABASE_URI.startswith("postgres://"):
     DATABASE_URI = DATABASE_URI.replace("postgres://", "postgresql://", 1)
 
@@ -204,6 +204,8 @@ def create_app(config_overrides=None):
     return app
 
 
+# Instancia para Gunicorn / Render (app:app)
+app = create_app()
+
 if __name__ == "__main__":
-    app = create_app()
     app.run(debug=True, port=5000)
