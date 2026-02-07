@@ -4,20 +4,138 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Maxxa Velada{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-    a { color: #2563eb; }
-    h1 { color: #333; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background: #f0f0f0; }
-    .nav { margin-top: 1rem; }
-    label { display: block; margin-top: 0.8rem; }
-    input, select { width: 100%; padding: 6px; box-sizing: border-box; }
-    button { margin-top: 1rem; padding: 8px 16px; }
+    :root {
+      --arcade-bg: #0d0d0f;
+      --arcade-panel: #1a1a1e;
+      --arcade-border: #2d2d35;
+      --arcade-accent: #ff6b35;
+      --arcade-accent-hover: #ff8c5a;
+      --arcade-glow: rgba(255, 107, 53, 0.4);
+      --arcade-text: #e8e8e8;
+      --arcade-muted: #888;
+    }
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--arcade-bg);
+      color: var(--arcade-text);
+      min-height: 100vh;
+    }
+    .font-arcade { font-family: 'Orbitron', sans-serif; }
+    .navbar-maxxa {
+      background: var(--arcade-panel) !important;
+      border-bottom: 2px solid var(--arcade-accent);
+      box-shadow: 0 0 20px var(--arcade-glow);
+    }
+    .navbar-maxxa .navbar-brand { font-family: 'Orbitron', sans-serif; font-weight: 900; color: var(--arcade-accent) !important; }
+    .navbar-maxxa .nav-link { color: var(--arcade-text) !important; font-weight: 600; }
+    .navbar-maxxa .nav-link:hover { color: var(--arcade-accent) !important; }
+    .card-arcade {
+      background: var(--arcade-panel);
+      border: 1px solid var(--arcade-border);
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .table-arcade {
+      --bs-table-bg: transparent;
+      --bs-table-color: var(--arcade-text);
+      --bs-table-border-color: var(--arcade-border);
+    }
+    .table-arcade thead th {
+      background: var(--arcade-panel);
+      color: var(--arcade-accent);
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      border-bottom: 2px solid var(--arcade-accent);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+    .table-arcade tbody tr:hover { background: rgba(255, 107, 53, 0.08); }
+    .btn-arcade {
+      background: var(--arcade-accent);
+      border: none;
+      color: #111;
+      font-weight: 700;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .btn-arcade:hover {
+      background: var(--arcade-accent-hover);
+      color: #111;
+      box-shadow: 0 0 20px var(--arcade-glow);
+    }
+    .btn-outline-arcade {
+      border: 2px solid var(--arcade-accent);
+      color: var(--arcade-accent);
+      font-weight: 600;
+    }
+    .btn-outline-arcade:hover {
+      background: var(--arcade-accent);
+      color: #111;
+      border-color: var(--arcade-accent);
+    }
+    .page-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      color: var(--arcade-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+    .form-control, .form-select {
+      background: var(--arcade-panel);
+      border: 1px solid var(--arcade-border);
+      color: var(--arcade-text);
+    }
+    .form-control:focus, .form-select:focus {
+      background: var(--arcade-panel);
+      border-color: var(--arcade-accent);
+      color: var(--arcade-text);
+      box-shadow: 0 0 0 0.25rem var(--arcade-glow);
+    }
+    .form-control::placeholder { color: var(--arcade-muted); }
+    .form-label { color: var(--arcade-text); font-weight: 600; }
+    .pagination .page-link {
+      background: var(--arcade-panel);
+      border-color: var(--arcade-border);
+      color: var(--arcade-accent);
+    }
+    .pagination .page-link:hover { background: var(--arcade-border); color: var(--arcade-accent); }
+    .pagination .page-item.disabled .page-link { color: var(--arcade-muted); }
+    a { color: var(--arcade-accent); }
+    a:hover { color: var(--arcade-accent-hover); }
+    .rank-gold { color: #ffd700; }
+    .rank-silver { color: #c0c0c0; }
+    .rank-bronze { color: #cd7f32; }
   </style>
+  {% block extra_css %}{% endblock %}
 </head>
 <body>
-  {% block content %}{% endblock %}
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-maxxa">
+    <div class="container">
+      <a class="navbar-brand" href="/">MAXXA VELADA</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="/matches">Partidas</a></li>
+          <li class="nav-item"><a class="nav-link" href="/leaderboard">Leaderboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="/matches/new">Nueva partida</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+    {% block content %}{% endblock %}
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_js %}{% endblock %}
 </body>
 </html>

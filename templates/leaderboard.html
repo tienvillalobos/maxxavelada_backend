@@ -1,30 +1,47 @@
 {% extends "base.html" %}
-{% block title %}Leaderboard{% endblock %}
+{% block title %}Leaderboard - Maxxa Velada{% endblock %}
 {% block content %}
-<h1>Leaderboard</h1>
-<table>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Jugador</th>
-      <th>Wins</th>
-      <th>Losses</th>
-      <th>Partidas</th>
-      <th>Win rate</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for r in rows %}
-    <tr>
-      <td>{{ r.rank }}</td>
-      <td>{{ r.name }}</td>
-      <td>{{ r.wins }}</td>
-      <td>{{ r.losses }}</td>
-      <td>{{ r.total_games }}</td>
-      <td>{{ r.win_rate_pct }}%</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<p><a href="/">Inicio</a></p>
+<h1 class="page-title">Leaderboard</h1>
+
+<div class="card card-arcade">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-arcade table-hover mb-0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Jugador</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Partidas</th>
+            <th>Win rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td>
+              {% if r.rank == 1 %}<span class="rank-gold fw-bold">🥇</span>
+              {% elif r.rank == 2 %}<span class="rank-silver fw-bold">🥈</span>
+              {% elif r.rank == 3 %}<span class="rank-bronze fw-bold">🥉</span>
+              {% else %}{{ r.rank }}{% endif %}
+            </td>
+            <td><strong>{{ r.name }}</strong></td>
+            <td class="text-success">{{ r.wins }}</td>
+            <td class="text-danger">{{ r.losses }}</td>
+            <td>{{ r.total_games }}</td>
+            <td><span class="text-warning fw-bold">{{ r.win_rate_pct }}%</span></td>
+          </tr>
+          {% else %}
+          <tr><td colspan="6" class="text-center text-muted py-4">Aún no hay datos. ¡Juega y registra partidas!</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <a href="/" class="btn btn-outline-arcade">← Inicio</a>
+</div>
 {% endblock %}

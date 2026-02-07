@@ -1,6 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Error{% endblock %}
+{% block title %}Error - Maxxa Velada{% endblock %}
 {% block content %}
-<p>{{ message }}</p>
-<p><a href="{{ back_url }}">Volver</a></p>
+<div class="card card-arcade border-danger">
+  <div class="card-body text-center py-5">
+    <p class="fs-5 text-danger mb-4">{{ message }}</p>
+    <a href="{{ back_url }}" class="btn btn-arcade">Volver</a>
+  </div>
+</div>
 {% endblock %}

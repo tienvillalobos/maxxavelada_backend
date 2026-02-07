@@ -1,11 +1,42 @@
 {% extends "base.html" %}
 {% block title %}Maxxa Velada - Stats{% endblock %}
 {% block content %}
-<h1>Maxxa Velada – Stats</h1>
-<ul style="line-height: 2;">
-  <li><a href="/matches">Ver partidas</a></li>
-  <li><a href="/leaderboard">Leaderboard</a></li>
-  <li><a href="/matches/new">Crear partida</a></li>
-</ul>
-<p>API: <a href="/api/matches">GET /api/matches</a> · <a href="/api/leaderboard">GET /api/leaderboard</a></p>
+<div class="text-center mb-5">
+  <h1 class="page-title display-4">Stats</h1>
+  <p class="text-secondary lead">Consulta partidas, ranking y registra resultados.</p>
+</div>
+
+<div class="row g-4 justify-content-center">
+  <div class="col-md-4">
+    <div class="card card-arcade h-100">
+      <div class="card-body text-center py-4">
+        <h5 class="card-title font-arcade text-uppercase text-warning mb-3">Partidas</h5>
+        <p class="card-text text-secondary mb-3">Historial de todas las peleas.</p>
+        <a href="/matches" class="btn btn-arcade">Ver partidas</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-arcade h-100">
+      <div class="card-body text-center py-4">
+        <h5 class="card-title font-arcade text-uppercase text-warning mb-3">Leaderboard</h5>
+        <p class="card-text text-secondary mb-3">Ranking por victorias y win rate.</p>
+        <a href="/leaderboard" class="btn btn-arcade">Ver ranking</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-arcade h-100">
+      <div class="card-body text-center py-4">
+        <h5 class="card-title font-arcade text-uppercase text-warning mb-3">Nueva partida</h5>
+        <p class="card-text text-secondary mb-3">Registrar resultado de una pelea.</p>
+        <a href="/matches/new" class="btn btn-arcade">Crear partida</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-5 pt-4 border-top border-secondary">
+  <p class="text-muted small mb-0">API: <a href="/api/matches">GET /api/matches</a> · <a href="/api/leaderboard">GET /api/leaderboard</a></p>
+</div>
 {% endblock %}

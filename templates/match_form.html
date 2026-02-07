@@ -1,29 +1,64 @@
 {% extends "base.html" %}
-{% block title %}Crear partida{% endblock %}
+{% block title %}Nueva partida - Maxxa Velada{% endblock %}
 {% block content %}
-<h1>Crear partida</h1>
-<form method="post" action="/matches/new">
-  <label>Jugador 1 <input name="player1_name" required></label>
-  <label>Jugador 2 <input name="player2_name" required></label>
-  <label>Ganador
-    <select name="winner">
-      <option value="p1">Jugador 1</option>
-      <option value="p2">Jugador 2</option>
-    </select>
-  </label>
-  <label>Score P1 <input type="number" name="score_p1" value="0" min="0"></label>
-  <label>Score P2 <input type="number" name="score_p2" value="0" min="0"></label>
-  <label>Stage <input name="stage" placeholder="opcional"></label>
-  <label>Personaje P1 <input name="character_p1" placeholder="opcional"></label>
-  <label>Personaje P2 <input name="character_p2" placeholder="opcional"></label>
-  <label>Modo
-    <select name="mode">
-      <option value="">—</option>
-      <option value="local">local</option>
-      <option value="online">online</option>
-    </select>
-  </label>
-  <button type="submit">Guardar partida</button>
-</form>
-<p><a href="/">Inicio</a> · <a href="/matches">Ver partidas</a></p>
+<h1 class="page-title">Nueva partida</h1>
+
+<div class="card card-arcade">
+  <div class="card-body">
+    <form method="post" action="/matches/new" class="row g-3">
+      <div class="col-md-6">
+        <label for="player1_name" class="form-label">Jugador 1</label>
+        <input type="text" class="form-control" id="player1_name" name="player1_name" required placeholder="Nombre">
+      </div>
+      <div class="col-md-6">
+        <label for="player2_name" class="form-label">Jugador 2</label>
+        <input type="text" class="form-control" id="player2_name" name="player2_name" required placeholder="Nombre">
+      </div>
+      <div class="col-12">
+        <label for="winner" class="form-label">Ganador</label>
+        <select class="form-select" id="winner" name="winner">
+          <option value="p1">Jugador 1</option>
+          <option value="p2">Jugador 2</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="score_p1" class="form-label">Score P1</label>
+        <input type="number" class="form-control" id="score_p1" name="score_p1" value="0" min="0">
+      </div>
+      <div class="col-md-6">
+        <label for="score_p2" class="form-label">Score P2</label>
+        <input type="number" class="form-control" id="score_p2" name="score_p2" value="0" min="0">
+      </div>
+      <div class="col-md-4">
+        <label for="stage" class="form-label">Stage</label>
+        <input type="text" class="form-control" id="stage" name="stage" placeholder="Opcional">
+      </div>
+      <div class="col-md-4">
+        <label for="character_p1" class="form-label">Personaje P1</label>
+        <input type="text" class="form-control" id="character_p1" name="character_p1" placeholder="Opcional">
+      </div>
+      <div class="col-md-4">
+        <label for="character_p2" class="form-label">Personaje P2</label>
+        <input type="text" class="form-control" id="character_p2" name="character_p2" placeholder="Opcional">
+      </div>
+      <div class="col-12">
+        <label for="mode" class="form-label">Modo</label>
+        <select class="form-select" id="mode" name="mode">
+          <option value="">—</option>
+          <option value="local">Local</option>
+          <option value="online">Online</option>
+        </select>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-arcade btn-lg">Guardar partida</button>
+        <a href="/matches" class="btn btn-outline-arcade btn-lg ms-2">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="mt-3">
+  <a href="/" class="btn btn-outline-arcade btn-sm">← Inicio</a>
+  <a href="/matches" class="btn btn-outline-arcade btn-sm ms-2">Ver partidas</a>
+</div>
 {% endblock %}
