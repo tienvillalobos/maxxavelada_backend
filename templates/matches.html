@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Partidas{% endblock %}
+{% block content %}
+<h1>Partidas</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>P1</th>
+      <th>P2</th>
+      <th>Ganador</th>
+      <th>Score</th>
+      <th>Stage</th>
+      <th>Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for m in matches %}
+    <tr>
+      <td>{{ m.id }}</td>
+      <td>{{ m.player1_name }}</td>
+      <td>{{ m.player2_name }}</td>
+      <td>{{ m.winner_name }}</td>
+      <td>{{ m.score_p1 }}-{{ m.score_p2 }}</td>
+      <td>{{ m.stage or '-' }}</td>
+      <td>{{ m.created_at }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p class="nav">
+  {% if has_prev %}<a href="/matches?page={{ page - 1 }}">Anterior</a>{% else %}Anterior{% endif %}
+  — Página {{ page }} de {{ pages }}
+  — {% if has_next %}<a href="/matches?page={{ page + 1 }}">Siguiente</a>{% else %}Siguiente{% endif %}
+</p>
+<p><a href="/">Inicio</a> · <a href="/matches/new">Crear partida</a></p>
+{% endblock %}

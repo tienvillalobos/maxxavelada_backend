@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Maxxa Velada{% endblock %}</title>
+  <style>
+    body { font-family: sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    a { color: #2563eb; }
+    h1 { color: #333; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f0f0f0; }
+    .nav { margin-top: 1rem; }
+    label { display: block; margin-top: 0.8rem; }
+    input, select { width: 100%; padding: 6px; box-sizing: border-box; }
+    button { margin-top: 1rem; padding: 8px 16px; }
+  </style>
+</head>
+<body>
+  {% block content %}{% endblock %}
+</body>
+</html>

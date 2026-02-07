@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Crear partida{% endblock %}
+{% block content %}
+<h1>Crear partida</h1>
+<form method="post" action="/matches/new">
+  <label>Jugador 1 <input name="player1_name" required></label>
+  <label>Jugador 2 <input name="player2_name" required></label>
+  <label>Ganador
+    <select name="winner">
+      <option value="p1">Jugador 1</option>
+      <option value="p2">Jugador 2</option>
+    </select>
+  </label>
+  <label>Score P1 <input type="number" name="score_p1" value="0" min="0"></label>
+  <label>Score P2 <input type="number" name="score_p2" value="0" min="0"></label>
+  <label>Stage <input name="stage" placeholder="opcional"></label>
+  <label>Personaje P1 <input name="character_p1" placeholder="opcional"></label>
+  <label>Personaje P2 <input name="character_p2" placeholder="opcional"></label>
+  <label>Modo
+    <select name="mode">
+      <option value="">—</option>
+      <option value="local">local</option>
+      <option value="online">online</option>
+    </select>
+  </label>
+  <button type="submit">Guardar partida</button>
+</form>
+<p><a href="/">Inicio</a> · <a href="/matches">Ver partidas</a></p>
+{% endblock %}

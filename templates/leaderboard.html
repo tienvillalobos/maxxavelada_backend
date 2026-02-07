@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard{% endblock %}
+{% block content %}
+<h1>Leaderboard</h1>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Jugador</th>
+      <th>Wins</th>
+      <th>Losses</th>
+      <th>Partidas</th>
+      <th>Win rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in rows %}
+    <tr>
+      <td>{{ r.rank }}</td>
+      <td>{{ r.name }}</td>
+      <td>{{ r.wins }}</td>
+      <td>{{ r.losses }}</td>
+      <td>{{ r.total_games }}</td>
+      <td>{{ r.win_rate_pct }}%</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p><a href="/">Inicio</a></p>
+{% endblock %}

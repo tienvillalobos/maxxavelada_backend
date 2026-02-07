@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Maxxa Velada - Stats{% endblock %}
+{% block content %}
+<h1>Maxxa Velada – Stats</h1>
+<ul style="line-height: 2;">
+  <li><a href="/matches">Ver partidas</a></li>
+  <li><a href="/leaderboard">Leaderboard</a></li>
+  <li><a href="/matches/new">Crear partida</a></li>
+</ul>
+<p>API: <a href="/api/matches">GET /api/matches</a> · <a href="/api/leaderboard">GET /api/leaderboard</a></p>
+{% endblock %}
