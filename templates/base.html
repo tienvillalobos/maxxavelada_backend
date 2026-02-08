@@ -8,113 +8,109 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --arcade-bg: #0d0d0f;
-      --arcade-panel: #1a1a1e;
-      --arcade-border: #2d2d35;
-      --arcade-accent: #ff6b35;
-      --arcade-accent-hover: #ff8c5a;
-      --arcade-glow: rgba(255, 107, 53, 0.4);
-      --arcade-text: #e8e8e8;
-      --arcade-muted: #888;
+      --bg: #ffffff;
+      --panel: #f8f9fa;
+      --border: #dee2e6;
+      --accent-orange: #ff6b35;
+      --accent-orange-hover: #e55a2b;
+      --accent-blue: #2563eb;
+      --accent-blue-hover: #1d4ed8;
+      --text: #212529;
+      --muted: #6c757d;
     }
     body {
       font-family: 'Rajdhani', sans-serif;
-      background: var(--arcade-bg);
-      color: var(--arcade-text);
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
     }
     .font-arcade { font-family: 'Orbitron', sans-serif; }
     .navbar-maxxa {
-      background: var(--arcade-panel) !important;
-      border-bottom: 2px solid var(--arcade-accent);
-      box-shadow: 0 0 20px var(--arcade-glow);
+      background: var(--bg) !important;
+      border-bottom: 2px solid var(--accent-orange);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
-    .navbar-maxxa .navbar-brand { font-family: 'Orbitron', sans-serif; font-weight: 900; color: var(--arcade-accent) !important; }
-    .navbar-maxxa .nav-link { color: var(--arcade-text) !important; font-weight: 600; }
-    .navbar-maxxa .nav-link:hover { color: var(--arcade-accent) !important; }
+    .navbar-maxxa .navbar-brand { font-family: 'Orbitron', sans-serif; font-weight: 900; color: var(--accent-orange) !important; }
+    .navbar-maxxa .nav-link { color: var(--text) !important; font-weight: 600; }
+    .navbar-maxxa .nav-link:hover { color: var(--accent-blue) !important; }
+    .navbar-maxxa .navbar-toggler { border-color: var(--accent-orange); }
+    .navbar-maxxa .navbar-toggler-icon { filter: invert(0); }
     .card-arcade {
-      background: var(--arcade-panel);
-      border: 1px solid var(--arcade-border);
+      background: var(--panel);
+      border: 1px solid var(--border);
       border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
-    .table-arcade {
-      --bs-table-bg: transparent;
-      --bs-table-color: var(--arcade-text);
-      --bs-table-border-color: var(--arcade-border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
     }
     .table-arcade thead th {
-      background: var(--arcade-panel);
-      color: var(--arcade-accent);
+      background: var(--accent-blue);
+      color: #fff;
       font-family: 'Orbitron', sans-serif;
       font-weight: 700;
-      border-bottom: 2px solid var(--arcade-accent);
+      border-color: var(--accent-blue);
       text-transform: uppercase;
       font-size: 0.85rem;
     }
-    .table-arcade tbody tr:hover { background: rgba(255, 107, 53, 0.08); }
+    .table-arcade tbody tr:hover { background: rgba(37, 99, 235, 0.06); }
     .btn-arcade {
-      background: var(--arcade-accent);
+      background: var(--accent-orange);
       border: none;
-      color: #111;
+      color: #fff;
       font-weight: 700;
       font-family: 'Orbitron', sans-serif;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
     .btn-arcade:hover {
-      background: var(--arcade-accent-hover);
-      color: #111;
-      box-shadow: 0 0 20px var(--arcade-glow);
+      background: var(--accent-orange-hover);
+      color: #fff;
     }
     .btn-outline-arcade {
-      border: 2px solid var(--arcade-accent);
-      color: var(--arcade-accent);
+      border: 2px solid var(--accent-orange);
+      color: var(--accent-orange);
       font-weight: 600;
     }
     .btn-outline-arcade:hover {
-      background: var(--arcade-accent);
-      color: #111;
-      border-color: var(--arcade-accent);
+      background: var(--accent-orange);
+      color: #fff;
+      border-color: var(--accent-orange);
     }
+    .btn-blue {
+      background: var(--accent-blue);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+    }
+    .btn-blue:hover { background: var(--accent-blue-hover); color: #fff; }
     .page-title {
       font-family: 'Orbitron', sans-serif;
       font-weight: 900;
-      color: var(--arcade-accent);
+      color: var(--accent-orange);
       text-transform: uppercase;
       letter-spacing: 0.1em;
       margin-bottom: 1.5rem;
     }
     .form-control, .form-select {
-      background: var(--arcade-panel);
-      border: 1px solid var(--arcade-border);
-      color: var(--arcade-text);
+      border: 1px solid var(--border);
+      color: var(--text);
     }
     .form-control:focus, .form-select:focus {
-      background: var(--arcade-panel);
-      border-color: var(--arcade-accent);
-      color: var(--arcade-text);
-      box-shadow: 0 0 0 0.25rem var(--arcade-glow);
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
     }
-    .form-control::placeholder { color: var(--arcade-muted); }
-    .form-label { color: var(--arcade-text); font-weight: 600; }
-    .pagination .page-link {
-      background: var(--arcade-panel);
-      border-color: var(--arcade-border);
-      color: var(--arcade-accent);
-    }
-    .pagination .page-link:hover { background: var(--arcade-border); color: var(--arcade-accent); }
-    .pagination .page-item.disabled .page-link { color: var(--arcade-muted); }
-    a { color: var(--arcade-accent); }
-    a:hover { color: var(--arcade-accent-hover); }
-    .rank-gold { color: #ffd700; }
-    .rank-silver { color: #c0c0c0; }
-    .rank-bronze { color: #cd7f32; }
+    .form-label { color: var(--text); font-weight: 600; }
+    .pagination .page-link { color: var(--accent-blue); }
+    .pagination .page-link:hover { background: rgba(37, 99, 235, 0.1); color: var(--accent-blue); }
+    .pagination .page-item.active .page-link { background: var(--accent-blue); border-color: var(--accent-blue); }
+    a { color: var(--accent-blue); }
+    a:hover { color: var(--accent-blue-hover); }
+    .rank-gold { color: #b8860b; font-weight: 700; }
+    .rank-silver { color: #6c757d; font-weight: 700; }
+    .rank-bronze { color: #cd7f32; font-weight: 700; }
   </style>
   {% block extra_css %}{% endblock %}
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-maxxa">
+  <nav class="navbar navbar-expand-lg navbar-light navbar-maxxa">
     <div class="container">
       <a class="navbar-brand" href="/">MAXXA VELADA</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,9 +119,6 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="/matches">Partidas</a></li>
-          <li class="nav-item"><a class="nav-link" href="/leaderboard">Leaderboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="/matches/new">Nueva partida</a></li>
         </ul>
       </div>
     </div>

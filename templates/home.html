@@ -1,42 +1,75 @@
 {% extends "base.html" %}
-{% block title %}Maxxa Velada - Stats{% endblock %}
+{% block title %}Maxxa Velada - Leaderboard{% endblock %}
 {% block content %}
-<div class="text-center mb-5">
-  <h1 class="page-title display-4">Stats</h1>
-  <p class="text-secondary lead">Consulta partidas, ranking y registra resultados.</p>
+<h1 class="page-title">Leaderboard</h1>
+
+<form method="get" action="/" class="row g-2 mb-4">
+  <div class="col-auto flex-grow-1">
+    <label for="name" class="form-label visually-hidden">Buscar por nombre</label>
+    <input type="text" class="form-control" id="name" name="name" value="{{ search_name or '' }}" placeholder="Buscar jugador por nombre...">
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-blue">Buscar</button>
+  </div>
+  {% if search_name %}
+  <div class="col-auto">
+    <a href="/" class="btn btn-outline-secondary">Limpiar</a>
+  </div>
+  {% endif %}
+</form>
+
+<div class="card card-arcade">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-arcade table-hover mb-0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Jugador</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Partidas</th>
+            <th>Win rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td>
+              {% if r.rank == 1 %}<span class="rank-gold">🥇 {{ r.rank }}</span>
+              {% elif r.rank == 2 %}<span class="rank-silver">🥈 {{ r.rank }}</span>
+              {% elif r.rank == 3 %}<span class="rank-bronze">🥉 {{ r.rank }}</span>
+              {% else %}{{ r.rank }}{% endif %}
+            </td>
+            <td><strong>{{ r.name }}</strong></td>
+            <td class="text-success">{{ r.wins }}</td>
+            <td class="text-danger">{{ r.losses }}</td>
+            <td>{{ r.total_games }}</td>
+            <td><span class="text-primary fw-bold">{{ r.win_rate_pct }}%</span></td>
+          </tr>
+          {% else %}
+          <tr><td colspan="6" class="text-center text-muted py-4">No hay jugadores. {% if search_name %}Prueba otro nombre.{% else %}Aún no hay datos.{% endif %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
-<div class="row g-4 justify-content-center">
-  <div class="col-md-4">
-    <div class="card card-arcade h-100">
-      <div class="card-body text-center py-4">
-        <h5 class="card-title font-arcade text-uppercase text-warning mb-3">Partidas</h5>
-        <p class="card-text text-secondary mb-3">Historial de todas las peleas.</p>
-        <a href="/matches" class="btn btn-arcade">Ver partidas</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card card-arcade h-100">
-      <div class="card-body text-center py-4">
-        <h5 class="card-title font-arcade text-uppercase text-warning mb-3">Leaderboard</h5>
-        <p class="card-text text-secondary mb-3">Ranking por victorias y win rate.</p>
-        <a href="/leaderboard" class="btn btn-arcade">Ver ranking</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card card-arcade h-100">
-      <div class="card-body text-center py-4">
-        <h5 class="card-title font-arcade text-uppercase text-warning mb-3">Nueva partida</h5>
-        <p class="card-text text-secondary mb-3">Registrar resultado de una pelea.</p>
-        <a href="/matches/new" class="btn btn-arcade">Crear partida</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="mt-5 pt-4 border-top border-secondary">
-  <p class="text-muted small mb-0">API: <a href="/api/matches">GET /api/matches</a> · <a href="/api/leaderboard">GET /api/leaderboard</a></p>
-</div>
+{% if pages > 1 %}
+<nav class="mt-4" aria-label="Paginación del leaderboard">
+  <ul class="pagination justify-content-center flex-wrap">
+    <li class="page-item {% if not has_prev %}disabled{% endif %}">
+      <a class="page-link" href="{% if has_prev %}/?page={{ page - 1 }}{% if search_name %}&name={{ search_name }}{% endif %}{% else %}#{% endif %}">Anterior</a>
+    </li>
+    <li class="page-item active"><span class="page-link">{{ page }} / {{ pages }}</span></li>
+    <li class="page-item {% if not has_next %}disabled{% endif %}">
+      <a class="page-link" href="{% if has_next %}/?page={{ page + 1 }}{% if search_name %}&name={{ search_name }}{% endif %}{% else %}#{% endif %}">Siguiente</a>
+    </li>
+  </ul>
+</nav>
+{% endif %}
+{% if total > 0 %}
+  <p class="text-center text-muted small mt-2">Página {{ page }} de {{ pages }} · {{ total }} jugador(es)</p>
+{% endif %}
 {% endblock %}

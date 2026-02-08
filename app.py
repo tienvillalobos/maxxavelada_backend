@@ -182,10 +182,68 @@ def create_app(config_overrides=None):
             "win_rate": round(wins / total, 2),
         })
 
-    # --- HTML: templates en templates/ ---
+    # --- HTML: solo leaderboard en ruta principal (paginación + búsqueda) ---
     @app.route("/")
     def home():
-        return render_template("home.html")
+        page = max(1, int(request.args.get("page", 1)))
+        per_page = min(50, max(10, int(request.args.get("per_page", 20))))
+        search_name = (request.args.get("name") or "").strip()
+        search_pattern = f"%{search_name}%" if search_name else None
+        like_op = "ILIKE" if "postgresql" in (DATABASE_URI or "") else "LIKE"
+
+        cte = """
+        WITH combined AS (
+            SELECT player1_name AS name, CASE WHEN winner = 'p1' THEN 1 ELSE 0 END AS won FROM match
+            UNION ALL
+            SELECT player2_name AS name, CASE WHEN winner = 'p2' THEN 1 ELSE 0 END AS won FROM match
+        ),
+        agg AS (
+            SELECT name, SUM(won) AS wins, COUNT(*) AS total_games, COUNT(*) - SUM(won) AS losses
+            FROM combined GROUP BY name
+        )
+        """
+        count_sql = cte + f" SELECT COUNT(*) FROM agg WHERE (:pattern IS NULL OR name {like_op} :pattern)"
+        total = db.session.execute(db.text(count_sql), {"pattern": search_pattern}).scalar() or 0
+
+        data_sql = cte + f"""
+        SELECT name, wins, losses, total_games, ROUND(100.0 * wins / NULLIF(total_games, 0), 1) AS win_rate_pct
+        FROM agg
+        WHERE (:pattern IS NULL OR name {like_op} :pattern)
+        ORDER BY wins DESC, total_games DESC
+        LIMIT :limit OFFSET :offset
+        """
+        offset = (page - 1) * per_page
+        raw = db.session.execute(
+            db.text(data_sql),
+            {"pattern": search_pattern, "limit": per_page, "offset": offset},
+        ).fetchall()
+        rows = [
+            {
+                "rank": offset + i + 1,
+                "name": r.name,
+                "wins": r.wins,
+                "losses": r.losses,
+                "total_games": r.total_games,
+                "win_rate_pct": r.win_rate_pct or 0,
+            }
+            for i, r in enumerate(raw)
+        ]
+        pages = max(1, (total + per_page - 1) // per_page) if total else 1
+        return render_template(
+            "home.html",
+            rows=rows,
+            page=page,
+            pages=pages,
+            total=total,
+            per_page=per_page,
+            search_name=search_name or None,
+            has_prev=page > 1,
+            has_next=page < pages,
+        )
+
+    @app.route("/leaderboard")
+    def page_leaderboard():
+        return redirect(url_for("home"))
 
     @app.route("/matches")
     def page_matches():
