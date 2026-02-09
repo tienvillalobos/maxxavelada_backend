@@ -280,36 +280,6 @@ def create_app(config_overrides=None):
             has_next=pagination.has_next,
         )
 
-    @app.route("/leaderboard")
-    def page_leaderboard():
-        limit = min(int(request.args.get("limit", 20)), 100)
-        sql = """
-        WITH combined AS (
-            SELECT player1_name AS name, CASE WHEN winner = 'p1' THEN 1 ELSE 0 END AS won FROM match WHERE mode = 'online'
-            UNION ALL
-            SELECT player2_name AS name, CASE WHEN winner = 'p2' THEN 1 ELSE 0 END AS won FROM match WHERE mode = 'online'
-        ),
-        agg AS (
-            SELECT name, SUM(won) AS wins, COUNT(*) AS total_games, COUNT(*) - SUM(won) AS losses
-            FROM combined GROUP BY name
-        )
-        SELECT name, wins, losses, total_games, ROUND(100.0 * wins / NULLIF(total_games, 0), 1) AS win_rate_pct
-        FROM agg ORDER BY wins DESC, total_games DESC LIMIT :limit
-        """
-        raw = db.session.execute(db.text(sql), {"limit": limit}).fetchall()
-        rows = [
-            {
-                "rank": i + 1,
-                "name": r.name,
-                "wins": r.wins,
-                "losses": r.losses,
-                "total_games": r.total_games,
-                "win_rate_pct": r.win_rate_pct or 0,
-            }
-            for i, r in enumerate(raw)
-        ]
-        return render_template("leaderboard.html", rows=rows)
-
     @app.route("/matches/new", methods=["GET", "POST"])
     def page_new_match():
         if request.method == "POST":
