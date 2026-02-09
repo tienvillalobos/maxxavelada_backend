@@ -111,12 +111,12 @@ def create_app(config_overrides=None):
         limit = min(int(request.args.get("limit", 10)), 100)
         min_games = max(0, int(request.args.get("min_games", 1)))
 
-        # Raw SQL para wins/losses por jugador (cada partida cuenta para ambos)
+        # Raw SQL para wins/losses por jugador (solo partidas online)
         sql = """
         WITH combined AS (
-            SELECT player1_name AS name, CASE WHEN winner = 'p1' THEN 1 ELSE 0 END AS won FROM match
+            SELECT player1_name AS name, CASE WHEN winner = 'p1' THEN 1 ELSE 0 END AS won FROM match WHERE mode = 'online'
             UNION ALL
-            SELECT player2_name AS name, CASE WHEN winner = 'p2' THEN 1 ELSE 0 END AS won FROM match
+            SELECT player2_name AS name, CASE WHEN winner = 'p2' THEN 1 ELSE 0 END AS won FROM match WHERE mode = 'online'
         ),
         agg AS (
             SELECT name,
@@ -188,14 +188,21 @@ def create_app(config_overrides=None):
         page = max(1, int(request.args.get("page", 1)))
         per_page = min(50, max(10, int(request.args.get("per_page", 20))))
         search_name = (request.args.get("name") or "").strip()
-        search_pattern = f"%{search_name}%" if search_name else None
-        like_op = "ILIKE" if "postgresql" in (DATABASE_URI or "") else "LIKE"
+        if search_name and "postgresql" not in (DATABASE_URI or ""):
+            search_pattern = f"%{search_name.upper()}%"
+            like_op = "LIKE"
+        elif search_name:
+            search_pattern = f"%{search_name}%"
+            like_op = "ILIKE"
+        else:
+            search_pattern = None
+            like_op = "LIKE"
 
         cte = """
         WITH combined AS (
-            SELECT player1_name AS name, CASE WHEN winner = 'p1' THEN 1 ELSE 0 END AS won FROM match
+            SELECT player1_name AS name, CASE WHEN winner = 'p1' THEN 1 ELSE 0 END AS won FROM match WHERE mode = 'online'
             UNION ALL
-            SELECT player2_name AS name, CASE WHEN winner = 'p2' THEN 1 ELSE 0 END AS won FROM match
+            SELECT player2_name AS name, CASE WHEN winner = 'p2' THEN 1 ELSE 0 END AS won FROM match WHERE mode = 'online'
         ),
         agg AS (
             SELECT name, SUM(won) AS wins, COUNT(*) AS total_games, COUNT(*) - SUM(won) AS losses
@@ -278,9 +285,9 @@ def create_app(config_overrides=None):
         limit = min(int(request.args.get("limit", 20)), 100)
         sql = """
         WITH combined AS (
-            SELECT player1_name AS name, CASE WHEN winner = 'p1' THEN 1 ELSE 0 END AS won FROM match
+            SELECT player1_name AS name, CASE WHEN winner = 'p1' THEN 1 ELSE 0 END AS won FROM match WHERE mode = 'online'
             UNION ALL
-            SELECT player2_name AS name, CASE WHEN winner = 'p2' THEN 1 ELSE 0 END AS won FROM match
+            SELECT player2_name AS name, CASE WHEN winner = 'p2' THEN 1 ELSE 0 END AS won FROM match WHERE mode = 'online'
         ),
         agg AS (
             SELECT name, SUM(won) AS wins, COUNT(*) AS total_games, COUNT(*) - SUM(won) AS losses
